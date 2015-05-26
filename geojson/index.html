@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `geojson` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, geojson">
+
+    <title>geojson - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'geojson', ty: 'mod', relpath: '../'};</script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>geojson</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-0' href='../src/geojson/lib.rs.html#15-120'>[src]</a></span></h1>
+<div class='docblock'>
+<h1 id="examples" class='section-header'><a
+                           href="#examples">Examples</a></h1>
+<h2 id="reading" class='section-header'><a
+                           href="#reading">Reading</a></h2><pre id='rust-example-rendered' class='rust '>
+<span class='kw'>use</span> <span class='ident'>geojson</span>::<span class='ident'>GeoJson</span>;
+
+<span class='kw'>let</span> <span class='ident'>geojson_str</span> <span class='op'>=</span> <span class='string'>r#&quot;
+{
+    &quot;type&quot;: &quot;Feature&quot;,
+    &quot;properties&quot;: {
+        &quot;name&quot;: &quot;Firestone Grill&quot;
+    },
+    &quot;geometry&quot;: {
+        &quot;type&quot;: &quot;Point&quot;,
+        &quot;coordinates&quot;: [-120.66029,35.2812]
+    }
+}
+&quot;#</span>;
+
+<span class='kw'>let</span> <span class='ident'>geojson</span> <span class='op'>=</span> <span class='ident'>geojson_str</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>GeoJson</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
+</pre>
+
+<h2 id="writing" class='section-header'><a
+                           href="#writing">Writing</a></h2><pre id='rust-example-rendered' class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
+<span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>::<span class='ident'>ToJson</span>;
+<span class='kw'>use</span> <span class='ident'>geojson</span>::{<span class='ident'>Feature</span>, <span class='ident'>GeoJson</span>, <span class='ident'>Geometry</span>, <span class='ident'>Value</span>};
+
+<span class='kw'>let</span> <span class='ident'>geometry</span> <span class='op'>=</span> <span class='ident'>Geometry</span>::<span class='ident'>new</span>(
+    <span class='ident'>Value</span>::<span class='ident'>Point</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='op'>-</span><span class='number'>120.66029</span>,<span class='number'>35.2812</span>])
+);
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>properties</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
+<span class='ident'>properties</span>.<span class='ident'>insert</span>(
+    <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;name&quot;</span>),
+    <span class='string'>&quot;Firestone Grill&quot;</span>.<span class='ident'>to_json</span>(),
+);
+
+<span class='kw'>let</span> <span class='ident'>geojson</span> <span class='op'>=</span> <span class='ident'>GeoJson</span>::<span class='ident'>Feature</span>(<span class='ident'>Feature</span> {
+    <span class='ident'>crs</span>: <span class='prelude-val'>None</span>,
+    <span class='ident'>bbox</span>: <span class='prelude-val'>None</span>,
+    <span class='ident'>geometry</span>: <span class='ident'>geometry</span>,
+    <span class='ident'>id</span>: <span class='prelude-val'>None</span>,
+    <span class='ident'>properties</span>: <span class='prelude-val'>Some</span>(<span class='ident'>properties</span>),
+});
+
+<span class='kw'>let</span> <span class='ident'>geojson_string</span> <span class='op'>=</span> <span class='ident'>geojson</span>.<span class='ident'>to_string</span>();
+</pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Error.html'
+                               title='geojson::Error'>Error</a></td>
+                        <td class='docblock short'><p>Error when reading a GeoJSON object from a str or Object</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Feature.html'
+                               title='geojson::Feature'>Feature</a></td>
+                        <td class='docblock short'><p>Feature Objects</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.FeatureCollection.html'
+                               title='geojson::FeatureCollection'>FeatureCollection</a></td>
+                        <td class='docblock short'><p>Feature Collection Objects</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Geometry.html'
+                               title='geojson::Geometry'>Geometry</a></td>
+                        <td class='docblock short'><p>Geometry Objects</p>
+</td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.Crs.html'
+                               title='geojson::Crs'>Crs</a></td>
+                        <td class='docblock short'><p>Coordinate Reference System Objects</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.GeoJson.html'
+                               title='geojson::GeoJson'>GeoJson</a></td>
+                        <td class='docblock short'><p>GeoJSON Objects</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.Value.html'
+                               title='geojson::Value'>Value</a></td>
+                        <td class='docblock short'><p>The underlying Geometry value</p>
+</td>
+                    </tr>
+                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='type' href='type.Bbox.html'
+                               title='geojson::Bbox'>Bbox</a></td>
+                        <td class='docblock short'><p>Bounding Boxes</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='type' href='type.LineStringType.html'
+                               title='geojson::LineStringType'>LineStringType</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='type' href='type.PointType.html'
+                               title='geojson::PointType'>PointType</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='type' href='type.PolygonType.html'
+                               title='geojson::PolygonType'>PolygonType</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='type' href='type.Position.html'
+                               title='geojson::Position'>Position</a></td>
+                        <td class='docblock short'><p>Positions</p>
+</td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "geojson";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>
