@@ -115,6 +115,6 @@ impl Error {
     }
 }
 
-trait FromObject: Sized {
+pub trait FromObject: Sized {
     fn from_object(object: &json::Object) -> Result<Self, Error>;
 }
